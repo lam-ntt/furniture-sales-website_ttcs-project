@@ -1,0 +1,130 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 25px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content input:hover {
+  background-color: #ddd;
+}
+
+.product-info {
+  display: flex; 
+  gap: 20px; 
+  margin-top: 100px;
+}
+
+.product-info-left {
+  flex: 1;
+  /* background-color: beige; */
+}
+
+.product-info-left img {
+  width: 350px; 
+  float: right; 
+  margin-right: 40px;
+  /* background-color: burlywood; */
+}
+
+.product-info-right {
+  width: 450px;
+  color: black;
+  flex: 1;
+}
+
+.product-name {
+  font-size: 30px;
+}
+
+.product-star {
+  font-size: 15px;
+}
+
+.product-star img {
+  width: 20px; 
+  margin-bottom: 5px;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+  gap: 10px;
+  color: #198754;
+}
+
+.product-price span {
+  color: grey;
+  font-size: 15px;
+  text-decoration: line-through;
+}
+
+.sale-button {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border: none;
+}
+
+.color-button {
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  padding: 5px 10px;
+  margin-right: 2px; 
+}
+
+.minus-button,
+.plus-button,
+.number-button {
+  background-color: white;
+  border-width: 0.5px;
+  border-style: solid;
+  padding: 5px 15px;
+  margin: 0px -3px;  
+}
+
+.add-button,
+.buy-button {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 50px;
+  background-color: goldenrod;
+  border: none;
+  margin-right: 5px;
+}
+
+.buy-button {
+  background-color: #198754;
+}
+
+.description-button,
+.review-button {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 5px 15px;
+  margin: 0;
+  border: none;
+}
+
+hr {
+  margin: 0;;
+}
+
+.product-description p {
+  margin-top: 10px;
+}
