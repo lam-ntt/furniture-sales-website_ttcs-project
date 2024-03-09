@@ -1,0 +1,60 @@
+<!-- <style>
+  .tab-container {
+   overflow: hidden;
+  }
+
+  .tab-button {
+    background-color: #f1f1f1;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+
+  .tab-button:hover {
+    background-color: #ddd;
+  }
+
+  .tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+</style> -->
+
+
+<div class="tab-container">
+  <button class="tab-button" onclick="openTab('tab1')">Tab 1</button>
+  <button class="tab-button" onclick="openTab('tab2')">Tab 2</button>
+  
+  <div id="tab1" class="tab-content">
+    Nội dung của tab 1
+  </div>
+  
+  <div id="tab2" class="tab-content" style="display:none;">
+    Nội dung của tab 2
+  </div>
+</div>
+
+<script>
+  function openTab(tabName) {
+    // var i;
+    // var tabContent = document.getElementsByClassName("tab-content");
+    // var tabButton = document.getElementsByClassName("tab-button");
+    // for (i = 0; i < tabContent.length; i++) {
+    //   tabContent[i].style.display = "none";
+    // }
+    // for (i = 0; i < tabButton.length; i++) {
+    //   tabButton[i].className = tabButton[i].className.replace(" active", "");
+    // }
+    // document.getElementById(tabName).style.display = "block";
+    // event.currentTarget.className += " active";
+  }
+</script>
+
+
