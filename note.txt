@@ -1,0 +1,6 @@
+nodemon
+dotevn
+express
+express-ejs-layouts
+ejs
+mongoose
