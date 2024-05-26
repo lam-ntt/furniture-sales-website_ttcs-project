@@ -262,12 +262,12 @@ a {
       transition: .3s all ease; }
     .product-section .product-item:hover .product-thumbnail {
       top: -25px; }
-    .product-section .product-item:hover .icon-cross {
+    /* .product-section .product-item:hover .icon-cross {
       bottom: 0;
       opacity: 1;
       visibility: visible; }
     .product-section .product-item:hover:before {
-      height: 70%; }
+      height: 70%; } */
 
 .why-choose-section {
   padding: 7rem 0; }

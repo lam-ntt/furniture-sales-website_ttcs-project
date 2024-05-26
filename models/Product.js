@@ -9,16 +9,26 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  size: {
+  size: { // length 3
+    length: {
+      type: Number,
+      required: true
+    },
+    width: {
+      type: Number,
+      required: true
+    },
+    height: {
+      type: Number,
+      required: true
+    }
+  },
+  color: { // enum
     type: String,
     required: true
   },
-  color: {
-    type: String,
-    required: true
-  },
-  category: {
-    type: String,
+  category: { // enum
+    type: String, 
     required: true
   },
   description: {
@@ -33,10 +43,6 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  rate: {
-    type: Number,
-    defaut: 0
-  },
   totalNumber: {
     type: Number,
     required: true
@@ -45,9 +51,9 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
-  createAt: {
-    type: Date,
-    default: Date.now
+  rate: {
+    type: Number,
+    default: 0
   },
   updateAt: {
     type: Date,
