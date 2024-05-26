@@ -1,0 +1,41 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+
+      <form class="col-md-12">
+        <div class="site-blocks-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th style="width: 200px;">Name</th>
+                <th>Category</th>
+                <th>Color</th>
+                <th>Size<br><span style="font-size: 12px; font-weight: 500;">(L x W x H)</span></th>
+                <th>Price<br><span style="font-size: 12px; font-weight: 500;">(Old | New price)</span></th>
+                <th>Quantity<br><span style="font-size: 12px; font-weight: 500;">(Total | Sold number)</span></th>
+              </tr>
+            </thead>
+
+            <% if (products) { %>
+              <% products.forEach(product => { %>
+                <tbody style="font-size: 16px;">
+                  <tr>
+                    <td><img src="/uploads/<%= product.image %>"  style="width: 75px;"></td>
+                    <td><%= product.name %></td>
+                    <td><%= product.category %></td>
+                    <td><%= product.color %></td>
+                    <td><%= product.size.length %>x<%= product.size.width %>x<%= product.size.height %> inches</td>
+                    <td><%= product.oldPrice %> | <%= product.newPrice %> $</td>
+                    <td><%= product.totalNumber %> | <%= product.soldNumber %></td>
+                  </tr>
+                </tbody>
+              <% }) %>
+            <% } %>
+          </table>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

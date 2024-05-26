@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/tiny-slider.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/mystyle.css" rel="stylesheet">
+</head>
+
+<body>
+		<!-- Start Header/Navigation -->
+		<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+			<div class="container">
+				<a class="navbar-brand" href="#">Manager Panel</a>
+				<div class="collapse navbar-collapse" id="navbarsFurni" style="display: flex; justify-content: right;">
+          <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0" style="display: flex;">
+            <li class="nav-item"><a class="nav-link" href="/admin" style="margin-right: 10px;">Home</a></li>
+						<li class="dropdown">
+              <a class="nav-link" href="#" style="margin-right: 30px;">Manage Product</a>
+              <div class="dropdown-content">
+                <a href="/admin/add-product">Add Product</a><br>
+                <a href="/admin/search-update-product">Update Product</a><br>
+                <a href="/admin/search-delete-product">Delete Product</a><br>
+              </div>
+            </li>
+						<li class="dropdown">
+              <a class="nav-link" href="#" style="margin-right: 30px;">Manage Bill</a>
+              <div class="dropdown-content">
+                <a href="/admin/update-product">Update Bill</a><br>
+                <a href="/admin/cancel-product">Cancel Bill</a><br>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a class="nav-link" href="#">View Sales Info</a>
+              <div class="dropdown-content">
+                <a href="/admin/view-product">View Product</a><br>
+                <a href="/admin/view-bill">View Bill</a><br>
+                <a href="/admin/view-response">View Response</a><br>
+              </div>
+            </li>
+					</ul>
+
+					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+            <li class="dropdown">
+              <a class="nav-link" href="/account"><img src="/images/user.svg"></a>
+              
+              <% if (typeof isAuthen !== 'undefined') { %>
+                <div class="dropdown-content">
+                  <a href="">Logout</a><br>
+                </div>
+              <% } else { %>
+               <div class="dropdown-content">
+                  <a href="/admin/login">Login</a><br>
+                </div>
+              <% } %>
+
+            </li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- End Header/Navigation -->
+
+    <%- body %>
+
+		<!-- Start Footer Section -->
+		<footer class="footer-section">
+			<div class="container relative">
+				<div class="row g-5 mb-5">
+					<div class="col-lg-4">
+						<div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Furni<span>.</span></a></div>
+						<p class="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant</p>
+						<ul class="list-unstyled custom-social">
+							<li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+							<li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+							<li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+							<li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="border-top copyright">
+					<div class="row pt-4">
+						<div class="col-lg-6">
+							<p class="mb-2 text-center text-lg-start">Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                . All Rights Reserved.
+              </p>
+						</div>
+						<div class="col-lg-6 text-center text-lg-end">
+							<ul class="list-unstyled d-inline-flex ms-auto">
+								<li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+								<li><a href="#">Privacy Policy</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- End Footer Section -->	
+
+		<script src="js/bootstrap.bundle.min.js"></script>
+		<script src="js/tiny-slider.js"></script>
+		<script src="js/custom.js"></script>
+	</body>
+</html>

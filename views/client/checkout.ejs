@@ -1,0 +1,58 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7" style="margin-left: auto; margin-right: auto;">
+        <div class="p-3 p-lg-5 border bg-white">
+          <center style="font-size: 25px; font-weight: bold; color: black; margin-bottom: 15px;">ORDER INFORMATION</center>
+          
+          <div style="font-size: 16px; color: black; padding-left: 8px; padding-bottom: 15px;">
+            <p><strong>Name:  </strong><%= client.name %></p>
+            <p><strong>Email:  </strong><%= client.email %></p>
+            <p><strong>Phone:  </strong><%= client.phone %></p>
+            <p><strong>Address:  </strong><%= client.address %></p>
+          </div>
+
+          <table class="table site-block-order-table mb-5" style="font-size: 16px;">
+            <thead>
+              <th>Product</th>
+              <th>Total</th>
+            </thead>
+            <tbody>
+              <% addedProducts.forEach(addedProduct => { %>
+                <tr>
+                  <td><%= addedProduct.product.name %> <strong class="mx-2">x</strong> <%= addedProduct.quantity %></td>
+                  <td>$<%= (addedProduct.product.newPrice * addedProduct.quantity).toFixed(2) %></td>
+                </tr>
+              <% }) %>
+              <tr>
+                <td class="text-black font-weight-bold"><strong>Delivery Fee</strong></td>
+                <td class="text-black font-weight-bold"><strong>$15.00</strong></td>
+              </tr>
+              <tr>
+                <td class="text-black font-weight-bold"><strong>Total Price</strong></td>
+                <% 
+                  let totalPrice = 0 
+                  addedProducts.forEach(addedProduct => totalPrice += addedProduct.product.newPrice * addedProduct.quantity)
+                  totalPrice = (totalPrice + 15.00).toFixed(2)
+                %>
+                <td class="text-black font-weight-bold"><strong name="totalPrice">$<%= totalPrice %></strong></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <form action="/checkout" method="POST">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black" style="font-size: 16px; font-weight: bold; margin-left: 8px;">Order Notes</label>
+                <textarea class="form-control" cols="30" rows="5" name="note" placeholder="Write your notes here..."></textarea>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 20px">
+              <button type="submit" class="btn btn-black btn-sm" >Place Order</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-5 mb-md-0" style="margin-left: auto; margin-right: auto">
+        <h2 class="h3 mb-3 text-black">Product ID: <%= product._id %></h2>
+        <div class="p-3 p-lg-5 border bg-white">
+          <form action="/admin/update-product/<%= product._id %>" method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12" style="margin-bottom: -10px;">
+                <label class="text-black">Category <span class="text-danger">*</span></label>
+                <ul style="display: flex; column-gap: 85px; list-style: none; margin-left: -30px;">
+                  <li><input type="radio" id="category1" name="category" value="Table" <% if (product.category === 'Table') { %> checked <% } %>> Table</li>
+                  <li><input type="radio" id="category2" name="category" value="Char" <% if (product.category === 'Char') { %> checked <% } %>> Char</li>
+                  <li><input type="radio" id="category3" name="category" value="Cabinet" <% if (product.category === 'Cabinet') { %> checked <% } %>> Cabinet</li>
+                  <li><input type="radio" id="category4" name="category" value="Shelf" <% if (product.category === 'Shelf') { %> checked <% } %>> Shelf</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12" style="margin-bottom: -10px;">
+                <label class="text-black">Color <span class="text-danger">*</span></label>
+                <ul style="display: flex; column-gap: 85px; list-style: none;margin-left: -30px;">
+                  <li><input type="radio" id="color1" name="color" value="White" <% if (product.color === 'White') { %> checked <% } %>> White</li>
+                  <li style="margin-left: -2.5px;"><input type="radio" id="color2" name="color" value="Beigh" <% if (product.color === 'Beigh') { %> checked <% } %>> Beigh</li>
+                  <li style="margin-left: -5.5px;"><input type="radio" id="color3" name="color" value="Brown" <% if (product.color === 'Brown') { %> checked <% } %>> Brown</li>
+                  <li style="margin-left: 10px;"><input type="radio" id="color4" name="color" value="Green" <% if (product.color === 'Green') { %> checked <% } %>> Green</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Size <span class="text-danger">*</span></label>
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="length" name="length" placeholder="Length" value="<%= product.size.length %>">
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="width" name="width" placeholder="Width" value="<%= product.size.width %>">
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="height" name="height" placeholder="Height" value="<%= product.size.height %>">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label class="text-black">Old Price <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="oldPrice" name="oldPrice" value="<%= product.oldPrice %>" required>
+              </div>
+              <div class="col-md-6">
+                <label class="text-black">New Price <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="newPrice" name="newPrice" value="<%= product.newPrice %>" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Total number <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="totalNumber" name="totalNumber" value="<%= product.totalNumber %>" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Description <span class="text-danger">*</span></label>
+                <textarea rows="7" class="form-control" id="describe" name="description" required><%= product.description %></textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label class="text-black">Image <span class="text-danger"></span></label>
+                <img style="width: 300px; margin-bottom: 20px;" id="previewImage" src="/uploads/<%= product.image %>">
+                <input type="file" class="form-control" id="image" name="image">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px">
+              <button type="submit" class="btn btn-black btn-sm py-3 btn-block">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('image').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(event) {
+        const previewImageElement = document.getElementById('previewImage');
+        previewImageElement.src = event.target.result;
+      }
+      
+      reader.readAsDataURL(file);
+    }
+  })
+</script>

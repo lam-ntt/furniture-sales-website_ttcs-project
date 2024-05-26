@@ -1,0 +1,65 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-6 mb-5 mb-md-0" style="margin-left: auto; margin-right: auto">
+        <div class="row">
+          <div class="col-md-10 mb-3 mb-md-0">
+            <input type="text" class="form-control py-3" id="search" placeholder="Enter product code">
+          </div>
+          <div class="col-md-2">
+            <button type="submit"class="btn btn-black" id="find"><a style="color: white; text-decoration: none;" method="get" id="redirect">Find</a></button>
+          </div>
+        </div>
+      </div>
+
+      <form class="col-md-12">
+        <div class="site-blocks-table">
+          <% if (product) { %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th style="width: 200px;">Name</th>
+                <th>Category</th>
+                <th>Color</th>
+                <th>Size<br><span style="font-size: 12px; font-weight: 500;">(L x W x H)</span></th>
+                <th>Price<br><span style="font-size: 12px; font-weight: 500;">(Old | New price)</span></th>
+                <th>Quantity<br><span style="font-size: 12px; font-weight: 500;">(Total | Sold number)</span></th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            
+            <tbody style="font-size: 16px;">
+              <tr>
+                <td><img src="/uploads/<%= product.image %>"  style="width: 75px;"></td>
+                <td><%= product.name %></td>
+                <td><%= product.category %></td>
+                <td><%= product.color %></td>
+                <td><%= product.size.length %> x <%= product.size.width %> x <%= product.size.height %> inches</td>
+                <td><%= product.oldPrice %> | <%= product.newPrice %> $</td>
+                <td><%= product.totalNumber %> | <%= product.soldNumber %></td>
+                <td><button><a href="/admin/delete-product/<%= product._id %>" method="get" style="text-decoration: none;" >Delete</a></button></td>
+              </tr>
+            </tbody>
+          </table>
+          <% } %>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('find').addEventListener('click', (event) => {
+    const searchElement = document.getElementById('search')
+
+    console.log(searchElement.value)
+
+    if(searchElement.value){
+      const redirectElement = document.getElementById('redirect')
+      redirectElement.setAttribute('href', `/admin/search-delete-product/?id=${searchElement.value}`)
+    }
+  })
+</script>

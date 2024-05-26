@@ -1,0 +1,94 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-5 mb-md-0" style="margin-left: auto; margin-right: auto">
+        <h2 class="h3 mb-3 text-black">New Product</h2>
+        <div class="p-3 p-lg-5 border bg-white">
+          <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12" style="margin-bottom: -10px;">
+                <label class="text-black">Category <span class="text-danger">*</span></label>
+                <ul style="display: flex; column-gap: 85px; list-style: none; margin-left: -30px;">
+                  <li><input type="radio" id="category1" name="category" value="Table"> Table</li>
+                  <li><input type="radio" id="category2" name="category" value="Char"> Char</li>
+                  <li><input type="radio" id="category3" name="category" value="Cabinet"> Cabinet</li>
+                  <li><input type="radio" id="category4" name="category" value="Bed"> Bed</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12" style="margin-bottom: -10px;">
+                <label class="text-black">Color <span class="text-danger">*</span></label>
+                <ul style="display: flex; column-gap: 85px; list-style: none;margin-left: -30px;">
+                  <li><input type="radio" id="color1" name="color" value="White"> White</li>
+                  <li style="margin-left: -2.5px;"><input type="radio" id="color2" name="color" value="Beigh"> Beigh</li>
+                  <li style="margin-left: -5.5px;"><input type="radio" id="color3" name="color" value="Brown"> Brown</li>
+                  <li style="margin-left: 10px;"><input type="radio" id="color4" name="color" value="Green"> Green</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Size <span class="text-danger">*</span></label>
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="length" name="length" placeholder="Length">
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="width" name="width" placeholder="Width">
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="height" name="height" placeholder="Height">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label class="text-black">Old Price <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="oldPrice" name="oldPrice" required>
+              </div>
+              <div class="col-md-6">
+                <label class="text-black">New Price <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="newPrice" name="newPrice" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Total number <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="totalNumber" name="totalNumber" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label class="text-black">Description <span class="text-danger">*</span></label>
+                <textarea rows="7"  class="form-control" id="describe" name="description" required></textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label class="text-black">Image <span class="text-danger">*</span></label>
+                <input type="file" class="form-control" id="image" name="image" required>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px">
+              <button type="submit" class="btn btn-black btn-sm py-3 btn-block">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

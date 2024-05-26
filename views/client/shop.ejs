@@ -1,0 +1,190 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-5 mb-md-0" style="margin: 0 auto">
+        <div class="row" style="margin-left: auto; margin-right: auto; margin-bottom: 50px;">
+          <div class="col-md-10 mb-3 mb-md-0">
+            <input type="text" class="form-control py-3" id="search" placeholder="Enter product name">
+          </div>
+
+          <div class="col-md-2">
+            <button type="submit"class="btn btn-black" id="find"><a style="color: white; text-decoration: none;">Find</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-11 mb-5 mb-md-0" style="margin: 0 auto">
+        <div class="form-group row" style="display: flex; justify-content: center;">
+          <div class="col-md-1" style="width: 100px;">
+            <p>FILTER BY | </p>
+          </div>
+
+          <div class="col-md-2" style="width: 175px;">
+            <div class="dropdown">
+              <button class="form-control dropbtn">Category</button>
+              <div class="dropdown-content">
+                <label><input type="checkbox" name="category" value="table"> Table</label><br>
+                <label><input type="checkbox" name="category" value="char"> Char</label><br>
+                <label><input type="checkbox" name="category" value="cabinet"> Cabinet</label><br>
+                <label><input type="checkbox" name="category" value="shelf"> Shelf</label><br>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2" style="width: 175px;">
+            <div class="dropdown">
+              <button class="form-control">Color</button>
+              <div class="dropdown-content">
+                <label><input type="checkbox" name="color" value="white"> White</label><br>
+                <label><input type="checkbox" name="color" value="beigh"> Beigh</label><br>
+                <label><input type="checkbox" name="color" value="brown"> Brown</label><br>
+                <label><input type="checkbox" name="color" value="green"> Green</label><br>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2" style="width: 175px;">
+            <div class="dropdown">
+              <button class="form-control">Size</button>
+              <div class="dropdown-content">
+                <label><input type="checkbox" name="size" value="small"> Small</label><br>
+                <label><input type="checkbox" name="size" value="medium"> Medium</label><br>
+                <label><input type="checkbox" name="size" value="large"> Large</label><br>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1" style="width: 100px;">
+            <p>SORT BY | </p>
+          </div>
+
+          <div class="col-md-2" style="width: 175px;">
+            <div class="dropdown">
+              <button class="form-control">Product</button>
+              <div class="dropdown-content">
+                <label><input type="radio" name="sort" value="decrease"> Decrease</label><br>
+                <label><input type="radio" name="sort" value="increase"> Increase</label><br>
+                <label><input type="radio" name="sort" value="newest"> Newest</label><br>
+                <label><input type="radio" name="sort" value="oldest"> Oldest</label><br>
+                <!-- <label><input type="radio"> Bestseller</label><br> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button type="submit"class="btn btn-black" id="filter"><a style="color: white; text-decoration: none;">Filter/Sort</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="untree_co-section product-section before-footer-section" >
+  <div class="container">
+    <div class="row" style="margin-top: -170px;">
+      <% if (products) { %>
+        <% products.forEach(product => { %>
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
+            <a style="text-decoration: none;" href="/product/<%= product._id %>" method="get">
+              <img src="/uploads/<%= product.image %>" class="img-fluid" style="width: 310px; height: 310px;">
+              <p style="text-align: left; font-size: 16px;"><%= product.name %><span style="float: right;"><img src="/uploads/star.png" style="width: 20px; margin-top: -3px;"><%= product.rate %></span></p>
+              <p style="text-align: left; font-size: 16px;">$<%= product.newPrice %><span style="float: right;">Units sold: <%= product.soldNumber %></span></p>
+            </a>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div class="untree_co-section" style="margin-top: -300px;">
+  <div class="container">
+    <div class="row" style="display: flex; justify-content: center; column-gap: 10px;">
+      <% for(let page = 1; page <= numberOfPage; page++ ) { %>
+        <% if ((page >= currentPage - 1 && page <= currentPage + 1) 
+                || page === 1 || page === numberOfPage) { %>
+         <% if (page == currentPage) { %>
+          <button class="form-control" style="width: 50px; background-color: black; color: white;"><%= page %></button>
+          <% } else { %>
+            <button class="form-control" style="width: 50px;" name="page"><%= page %></button>
+         <% } %>
+        <% } else { %>
+          <p style="width: 35px; display: flex; align-items: end;">...</p>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  const findBtn = document.getElementById('find')
+  const filterBtn = document.getElementById('filter')
+  const searchE = document.getElementById('search')
+  const categoryOpts = Array.from(document.getElementsByName('category'))
+  const colorOtps = Array.from(document.getElementsByName('color'))
+  const sizeOtps = Array.from(document.getElementsByName('size'))
+  const sortOtps = Array.from(document.getElementsByName('sort'))
+  const pageBtns = Array.from(document.getElementsByName('page'))
+
+  const curUrl = window.location.href
+  const curPath = curUrl.slice(curUrl.indexOf('/shop'))
+  let newPath
+
+  findBtn.addEventListener('click', (event) => {
+    if(searchE.value) {
+      newPath = `/shop/?buffer=0&search=${searchE.value}`
+    } else {
+      newPath = `/shop`
+    }
+    window.location.href = newPath;
+
+  })
+
+  filterBtn.addEventListener('click', (event) => {
+    newPath = '/shop/?buffer=0'
+    let otps = categoryOpts.filter((otp) => (otp.checked))
+    if(otps.length > 0) {
+      let state = otps.map((otp) => (otp.value)).join(',')
+      newPath += `&category=${state}`
+    }
+
+    otps = colorOtps.filter((otp) => (otp.checked))
+    if(otps.length > 0) {
+      state = otps.map((otp) => (otp.value)).join(',')
+      newPath += `&color=${state}`
+    }
+
+    otps = sizeOtps.filter((otp) => (otp.checked))
+    if(otps.length > 0) {
+      state = otps.map((otp) => (otp.value)).join(',')
+      newPath += `&size=${state}`
+    }
+
+    otps = sortOtps.filter((otp) => (otp.checked))
+    if(otps.length > 0) {
+      state = otps[0].value
+      newPath += `&sort=${state}`
+    }
+
+    window.location.href = newPath;
+  })
+
+  pageBtns.forEach((pageBtn) => {
+    pageBtn.addEventListener('click', (event) => {
+      const tmp = curPath.indexOf('buffer')
+      if(tmp === -1) {
+        newPath = `/shop/?page=${pageBtn.innerText}`
+      } else {
+        newPath = `/shop/?page=${pageBtn.innerText}&${curPath.slice(tmp)}`
+      }
+
+      window.location.href = newPath;
+    })
+  })
+
+</script>

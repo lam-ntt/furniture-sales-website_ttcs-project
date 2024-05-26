@@ -1,0 +1,132 @@
+<div class="untree_co-section before-footer-section">
+  <div class="container">
+    <div class="row mb-5">
+      <form class="col-md-12" method="post">
+        <div class="site-blocks-table">
+          <table class="table" style="font-size: 16px;">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th style="width: 275px;">Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+
+            <% if (addedProducts) { %>
+              <tbody>
+              <% addedProducts.forEach(addedProduct => { %>
+                <tr>
+                  <td>
+                    <img src="/uploads/<%= addedProduct.product.image %>" style="width: 75px;">
+                  </td>
+                  <td style="text-align: left;">
+                    <strong>Name:</strong> <%= addedProduct.product.name %><br>
+                    <strong>Category:</strong> <%= addedProduct.product.category %><br>
+                    <strong>Color:</strong> <%= addedProduct.product.color %><br>
+                    <strong>Size:</strong> <%= addedProduct.product.size.length %>"D x <%= addedProduct.product.size.width %>"W x <%= addedProduct.product.size.height %>"H<br>
+                  </td>
+                  <td>$<%= addedProduct.product.newPrice %></td>
+                  <td>
+                    <div class="input-group align-items-center" style="max-width: 115px; margin-left: auto; margin-right: auto;">
+                      <div>
+                        <button class="btn btn-outline-black" type="button" name="decrease">&minus;</button>
+                      </div>
+                      <input type="text" style="pointer-events: none;" class="form-control text-center" value="<%= addedProduct.quantity %>" name="number">
+                      <div>
+                        <button class="btn btn-outline-black" type="button" name="increase">&plus;</button>
+                      </div>
+                    </div>
+                  </td>
+                  <td><a class="btn btn-black btn-sm" name="remove-button">X</a></td>
+                </tr>
+              <% }) %>
+              </tbody>
+            <% } %>
+          </table>
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-5">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <button class="btn btn-black btn-sm btn-block"><a href="/checkout" style="color: white; text-decoration: none;" >Proceed To Checkout</a></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 pl-5">
+        <div class="row justify-content-end">
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-black btn-sm btn-block" id="update-button">Update Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const numberIpts = document.getElementsByName('number')
+  const decBtns = document.getElementsByName('decrease')
+  const incBtns = document.getElementsByName('increase')
+
+  const removeBtns = document.getElementsByName('remove-button')
+  const updateBtn = document.getElementById('update-button')
+
+  console.log(removeBtns)
+
+  const addedProducts = <%- JSON.stringify(addedProducts) %>;
+
+  for(let i = 0; i < decBtns.length; i++){
+    decBtns[i].addEventListener('click', () => {
+      if(Number(numberIpts[i].value) - 1 > 0){
+        numberIpts[i].value = Number(numberIpts[i].value) - 1
+      }
+    })
+
+    incBtns[i].addEventListener('click', () => {
+      if(Number(numberIpts[i].value) + 1 <= addedProducts[i].product.totalNumber){
+        numberIpts[i].value = Number(numberIpts[i].value) + 1
+      }
+    })
+
+    removeBtns[i].addEventListener('click', () => {
+      fetch(`/removeFromCart/${addedProducts[i]._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        window.location.href = response.url
+      })
+      .catch(error => console.log(error))
+    })
+  }
+
+  updateBtn.addEventListener('click', () => {
+    let quantityArr = []
+    numberIpts.forEach(numberIpt => quantityArr.push(numberIpt.value))
+
+    fetch('/justifyCart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({quantityArr})
+    })
+    .then(response => {
+      window.location.href = response.url
+    })
+    .catch(error => console.log(error))
+  })
+
+</script>

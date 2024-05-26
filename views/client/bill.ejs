@@ -1,0 +1,50 @@
+<div class="untree_co-section before-footer-section">
+  <div class="container">
+    <div class="row mb-5">
+      <!-- <form class="col-md-12" method="post"> -->
+        <div class="site-blocks-table">
+          <table class="table" style="font-size: 16px;">
+            <thead>
+              <tr>
+                <th style="width: 250px;">Product</th>
+                <th style="width: 300px;">Description</th>
+                <th>Price</th>
+                <th>State</th>
+                <th>Option</th>
+              </tr>
+            </thead>
+
+            <% if (bills) { %>
+              <tbody>
+              <% bills.forEach(bill => { %>
+                <% bill.addedProducts.forEach(addedProduct => { %>
+                <tr>
+                  <td><img src="/uploads/<%= addedProduct.product.image %>" style="width: 75px" ></td>
+                  <td style="text-align: left;">
+                    <strong>Name:</strong> <%= addedProduct.product.name %> x <%= addedProduct.quantity %><br>
+                    <strong>Category:</strong> <%= addedProduct.product.category %><br>
+                    <strong>Color:</strong> <%= addedProduct.product.color %><br>
+                    <strong>Size:</strong> <%= addedProduct.product.size.length %> x <%= addedProduct.product.size.width %> x <%= addedProduct.product.size.height %> inches<br>
+                  </td>
+                  <td>$<%= (addedProduct.product.newPrice * addedProduct.quantity).toFixed(2) %></td>
+                  <td><%= addedProduct.state %></td>
+                  <td>
+                    <% if(addedProduct.state === 'Ordered') { %>
+                      <button id="cancel-button"><a href="/cancel/<%= addedProduct._id %>" method="GET" style="text-decoration: none;" >Cancel</a></button>
+                    <% } else if (addedProduct.state === 'Received') { %>
+                      <button id="review-button"><a href="/review/<%= addedProduct._id %>" method="GET" style="text-decoration: none;" >Review</a></button>
+                    <% } else { %>
+                    <% } %>
+                  </td>
+                </tr>
+                <% }) %>
+              <% }) %>
+              </tbody>
+            <% } %>
+          </table>
+        </div>
+      <!-- </form> -->
+    </div>
+    </div>
+  </div>
+</div>
