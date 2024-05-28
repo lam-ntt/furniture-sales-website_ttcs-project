@@ -25,17 +25,13 @@
                 </tr>
               <% }) %>
               <tr>
-                <td class="text-black font-weight-bold"><strong>Delivery Fee</strong></td>
-                <td class="text-black font-weight-bold"><strong>$15.00</strong></td>
-              </tr>
-              <tr>
                 <td class="text-black font-weight-bold"><strong>Total Price</strong></td>
                 <% 
                   let totalPrice = 0 
                   addedProducts.forEach(addedProduct => totalPrice += addedProduct.product.newPrice * addedProduct.quantity)
                   totalPrice = (totalPrice + 15.00).toFixed(2)
                 %>
-                <td class="text-black font-weight-bold"><strong name="totalPrice">$<%= totalPrice %></strong></td>
+                <td class="text-black font-weight-bold"><strong>$<%= totalPrice %></strong></td>
               </tr>
             </tbody>
           </table>

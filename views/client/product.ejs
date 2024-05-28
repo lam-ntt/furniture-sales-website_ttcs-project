@@ -1,32 +1,57 @@
-
+<div class="row mb-5" id="message-block"></div>
 
 <div class="product-info">
   <div class="product-info-left">
     <img src="/uploads/<%= product.image %>" style="width: 400px; height: 400px;">
   </div>
   <div class="product-info-right">
-    <h3 class="product-name"><%= product.name %></h3>
-    <h5><%= product.size.length %>"D x <%= product.size.width %>"W x <%= product.size.height %>"H</h5>
+    <h3 class="product-name">
+      <%= product.name %>
+    </h3>
+    <h5 class="product-size">
+      <%= product.size.length %>"D 
+      x <%= product.size.width %>"W 
+      x <%= product.size.height %>"H
+    </h5>
+
     <h4 class="product-star">
-      <img src="/uploads/star.png"><%= product.rate %> | Units Sold <%= product.soldNumber %>
+      <img src="/uploads/star.png"><%= product.rate %> 
+      | Units Sold <%= product.soldNumber %>
     </h4>
     <h3 class="product-price">
       <% product.sale = ((1 - product.newPrice/product.oldPrice) * 100).toFixed(0) %>
+
       <span>$<%= product.oldPrice %></span> $<%= product.newPrice %>
-      <button class="sale-button">Sale <%= product.sale %>%</button>
+      <button class="sale-button">
+        Sale <%= product.sale %>%
+      </button>
     </h3>
     
-    <p class="product-category"><strong>Category <span style="color: #eff2f1;">-</span></strong><%= product.category %></p>
-    <p class="product-color"><strong>Color <span style="color: #eff2f1;">-----</span></strong><%= product.color %></p>
+    <p class="product-category">
+      <strong>Category <span style="color: #eff2f1;">-</span></strong>
+      <%= product.category %>
+    </p>
 
-    <p class="product-number"><strong>Number <span style="color: #eff2f1;">--</span></strong>
+    <p class="product-color">
+      <strong>Color <span style="color: #eff2f1;">-----</span></strong>
+      <%= product.color %>
+    </p>
+
+    <p class="product-number">
+      <strong>Number <span style="color: #eff2f1;">--</span></strong>
       <button class="minus-button" id="minus">&#8722;</button>
-      <button class="number-button"><p style="height: 12px;" id="quantity">1</p></button>
+      <button class="number-button">
+        <p style="height: 12px;" id="quantity">1</p>
+      </button>
       <button class="plus-button" id="plus">+</button>
     </p>
 
-    <button class="btn btn-secondary me-2" style="color: black; background-color: goldenrod; border: none; width: 175px; margin-right: 15px;" id="add">Add to Cart</button>
-    <button class="btn btn-secondary me-2" style="color: black; background-color: #198754; border: none; width: 175px;" id="buy">Buy Now</button>
+    <button class="btn btn-secondary me-2" style="background-color: goldenrod; color: black; border: none; width: 175px; margin-right: 15px;" id="add">
+      Add to Cart
+    </button>
+    <button class="btn btn-secondary me-2" style="background-color: #198754; color: black; border: none; width: 175px;" id="buy">
+      Buy Now
+    </button>
   </div>
 </div>
 
@@ -36,28 +61,35 @@
     <button class="review-button" id="review">Review</button>
     <hr>
   </div>
+
   <div class="description-area" id="description-area">
     <p><%= product.description %></p>
   </div>
-  <div class="review-area" id="review-area" style="display: none; margin-top: 20px; margin-left: 30px; margin-right: 30px;">
+  <div class="review-area" id="review-area" 
+  style="display: none; margin-top: 20px; margin-left: 30px; margin-right: 30px;">
     <% if (addedProducts) { %>
      <% addedProducts.forEach(addedProduct => { %>
-      <div class="review" style="display: flex;">
-        <img src="/img/account.png" style="width: 50px; height: 50px;">
-        <div style="margin-left: 10px;">
-          <h6><%= addedProduct.client.name %></h6>
-          <p><%= addedProduct.comment %> (<span><%= addedProduct.rate %><img src="/uploads/star.png" style="width: 15px; margin-bottom: 2.5px;"></span>)</p>
+      <% if (addedProduct.rate) { %>
+        <div class="review" style="display: flex;">
+          <img src="/img/account.png" style="width: 50px; height: 50px;">
+          <div style="margin-left: 10px;">
+              <h6><%= addedProduct.client.name %></h6>
+              <p><%= addedProduct.comment %> (<span><%= addedProduct.rate %><img src="/uploads/star.png" style="width: 15px; margin-bottom: 2.5px;"></span>)</p>
+          </div>
         </div>
-      </div>
+      <% } %>
      <% }) %>
     <% } %>
   </div>
 </div>
 
 <script>
+  const mesBlock = document.getElementById('message-block')
+
   const minusBtn = document.getElementById('minus')
   const plusBtn = document.getElementById('plus')
   const quantity = document.getElementById('quantity')
+
   const addBtn = document.getElementById('add')
   const buyBtn = document.getElementById('buy')
 
@@ -67,7 +99,7 @@
   const reviewArea = document.getElementById('review-area')
 
   // ejs runs on server (obj), script runs on client (json obj)
-  const product = <%- JSON.stringify(product) %>;
+  const product = <%- JSON.stringify(product) %>
 
   minusBtn.addEventListener('click', () => {
     if(Number(quantity.innerText) - 1 > 0){
@@ -84,25 +116,47 @@
   addBtn.addEventListener('click', () => {
     if(product.totalNumber > product.soldNumber) {
       fetch('/addToCart', {
-        method: 'POST',
+        method: 'post',
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({product, quantity: Number(quantity.innerText)}),
-        redirect: 'manual'
+        body: JSON.stringify({product, quantity: Number(quantity.innerText)})
       })
-      .then(res => console.log(res))
+      .then(res => res.json())
+      .then(res => {
+        if(res.success) {
+          mesBlock.innerHTML = `
+            <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
+              <div class="alert alert-success">
+                ${res.success}
+                <span style="float: right;">
+                  <a style="text-decoration: none;" href="/product/<%= product._id %>">&#215;</a>
+                </span>
+              </div>
+            </div>`
+        } else {
+          mesBlock.innerHTML = `
+            <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
+              <div class="alert alert-warning">
+                ${res.fail}
+                <span style="float: right;">
+                  <a style="text-decoration: none;" href="/product/<%= product._id %>">&#215;</a>
+                </span>
+              </div>
+            </div>`
+        }
+      })
       .catch(err => console.log(err))
     }
-
   })
 
-  desBtn.addEventListener('click', (event) => {
+  desBtn.addEventListener('click', () => {
     desArea.style.display = 'block'
     reviewArea.style.display = 'none'
   })
 
-  reviewBtn.addEventListener('click', (event) => {
+  reviewBtn.addEventListener('click', () => {
     reviewArea.style.display = 'block'
     desArea.style.display = 'none'
   })

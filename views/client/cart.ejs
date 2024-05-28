@@ -1,71 +1,73 @@
 <div class="untree_co-section before-footer-section">
   <div class="container">
-    <div class="row mb-5">
-      <form class="col-md-12" method="post">
-        <div class="site-blocks-table">
-          <table class="table" style="font-size: 16px;">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th style="width: 275px;">Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
+    <div class="row mb-5" id="message-block"></div>
 
-            <% if (addedProducts) { %>
-              <tbody>
-              <% addedProducts.forEach(addedProduct => { %>
-                <tr>
-                  <td>
-                    <img src="/uploads/<%= addedProduct.product.image %>" style="width: 75px;">
-                  </td>
-                  <td style="text-align: left;">
-                    <strong>Name:</strong> <%= addedProduct.product.name %><br>
-                    <strong>Category:</strong> <%= addedProduct.product.category %><br>
-                    <strong>Color:</strong> <%= addedProduct.product.color %><br>
-                    <strong>Size:</strong> <%= addedProduct.product.size.length %>"D x <%= addedProduct.product.size.width %>"W x <%= addedProduct.product.size.height %>"H<br>
-                  </td>
-                  <td>$<%= addedProduct.product.newPrice %></td>
-                  <td>
+    <div class="row mb-5">
+      <div class="site-blocks-table">
+        <table class="table" style="font-size: 16px;">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th style="width: 275px;">Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+
+          <% if (addedProducts) { %>
+            <tbody>
+            <% addedProducts.forEach(addedProduct => { %>
+              <tr>
+                <td>
+                  <img src="/uploads/<%= addedProduct.product.image %>" style="width: 75px;">
+                </td>
+                <td style="text-align: left;">
+                  <strong>Name:</strong> <%= addedProduct.product.name %><br>
+                  <strong>Category:</strong> <%= addedProduct.product.category %><br>
+                  <strong>Color:</strong> <%= addedProduct.product.color %><br>
+                  <strong>Size:</strong> <%= addedProduct.product.size.length %>"D x <%= addedProduct.product.size.width %>"W x <%= addedProduct.product.size.height %>"H<br>
+                </td>
+                <td>$<%= addedProduct.product.newPrice %></td>
+                <td>
+                  <% if (addedProduct.quantity <= addedProduct.product.totalNumber - addedProduct.product.soldNumber) { %>
                     <div class="input-group align-items-center" style="max-width: 115px; margin-left: auto; margin-right: auto;">
                       <div>
-                        <button class="btn btn-outline-black" type="button" name="decrease">&minus;</button>
+                        <button class="btn btn-outline-black" type="button" name="minus">&minus;</button>
                       </div>
                       <input type="text" style="pointer-events: none;" class="form-control text-center" value="<%= addedProduct.quantity %>" name="number">
                       <div>
-                        <button class="btn btn-outline-black" type="button" name="increase">&plus;</button>
+                        <button class="btn btn-outline-black" type="button" name="plus">&plus;</button>
                       </div>
                     </div>
-                  </td>
-                  <td><a class="btn btn-black btn-sm" name="remove-button">X</a></td>
-                </tr>
-              <% }) %>
-              </tbody>
-            <% } %>
-          </table>
-        </div>
-      </form>
+                  <% } else { %>
+                    <p name="check">
+                      Now, this product is not enough quantity. 
+                      <br>You need to remove it!
+                    </p>
+                  <% } %>
+                </td>
+                <td><a class="btn btn-black btn-sm" name="remove">X</a></td>
+              </tr>
+            <% }) %>
+            </tbody>
+          <% } %>
+        </table>
+      </div>
     </div>
 
     <div class="row">
       <div class="col-md-6">
         <div class="row mb-5">
-          <div class="col-md-6 mb-3 mb-md-0">
-            <button class="btn btn-black btn-sm btn-block"><a href="/checkout" style="color: white; text-decoration: none;" >Proceed To Checkout</a></button>
+          <div class="col-md-6">
+            <button class="btn btn-black btn-sm btn-block"><a href="/checkout" style="color: white; text-decoration: none;" id="proceed">Proceed To Checkout</a></button>
           </div>
         </div>
       </div>
-
-      <div class="col-md-6 pl-5">
+      <div class="col-md-6">
         <div class="row justify-content-end">
           <div class="col-md-4">
-            <div class="row">
-              <div class="col-md-12">
-                <button class="btn btn-black btn-sm btn-block" id="update-button">Update Cart</button>
-              </div>
-            </div>
+            <button class="btn btn-black btn-sm btn-block" id="update">Update Cart</button>
           </div>
         </div>
       </div>
@@ -74,25 +76,27 @@
 </div>
 
 <script>
+  const mesBlock = document.getElementById('message-block')
+
+  const minusBtns = document.getElementsByName('minus')
+  const plusBtns = document.getElementsByName('plus')
   const numberIpts = document.getElementsByName('number')
-  const decBtns = document.getElementsByName('decrease')
-  const incBtns = document.getElementsByName('increase')
 
-  const removeBtns = document.getElementsByName('remove-button')
-  const updateBtn = document.getElementById('update-button')
+  const removeBtns = document.getElementsByName('remove')
+  const updateBtn = document.getElementById('update')
+  const proceedBtn = document.getElementById('proceed')
+  const check = document.getElementsByName('check')
 
-  console.log(removeBtns)
+  const addedProducts = <%- JSON.stringify(addedProducts) %>
 
-  const addedProducts = <%- JSON.stringify(addedProducts) %>;
-
-  for(let i = 0; i < decBtns.length; i++){
-    decBtns[i].addEventListener('click', () => {
+  for(let i = 0; i < minusBtns.length; i++){
+    minusBtns[i].addEventListener('click', () => {
       if(Number(numberIpts[i].value) - 1 > 0){
         numberIpts[i].value = Number(numberIpts[i].value) - 1
       }
     })
 
-    incBtns[i].addEventListener('click', () => {
+    plusBtns[i].addEventListener('click', () => {
       if(Number(numberIpts[i].value) + 1 <= addedProducts[i].product.totalNumber){
         numberIpts[i].value = Number(numberIpts[i].value) + 1
       }
@@ -100,33 +104,66 @@
 
     removeBtns[i].addEventListener('click', () => {
       fetch(`/removeFromCart/${addedProducts[i]._id}`, {
-        method: 'POST',
+        method: 'post',
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
       })
-      .then(response => {
-        window.location.href = response.url
-      })
-      .catch(error => console.log(error))
+      .then(res => window.location.reload())
+      .catch(err => console.log(err))
     })
   }
 
   updateBtn.addEventListener('click', () => {
+    if(check.length !== 0) {
+      e.preventDefault()
+      mesBlock.innerHTML = `
+        <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
+          <div class="alert alert-warning">
+            You need to remove products that is not enough quantity in stock!
+            <span style="float: right;">
+              <a style="text-decoration: none;" href="/cart">&#215;</a>
+            </span>
+          </div>
+        </div>`
+      return
+    }
+
     let quantityArr = []
     numberIpts.forEach(numberIpt => quantityArr.push(numberIpt.value))
 
     fetch('/justifyCart', {
-      method: 'POST',
+      method: 'post',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({quantityArr})
     })
-    .then(response => {
-      window.location.href = response.url
-    })
-    .catch(error => console.log(error))
+    .then(res => window.location.href = res.url)
+    .catch(err => console.log(err))
+  })
+
+  proceedBtn.addEventListener('click', (e) => {
+    if(check.length !== 0) {
+      e.preventDefault()
+      mesBlock.innerHTML = `
+        <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
+          <div class="alert alert-warning">
+            You need to remove products that is not enough quantity in stock!
+            <span style="float: right;">
+              <a style="text-decoration: none;" href="/cart">&#215;</a>
+            </span>
+          </div>
+        </div>`
+      return
+    }
+
+    if(addedProducts.length === 0) {
+      e.preventDefault()
+      return
+    }
   })
 
 </script>

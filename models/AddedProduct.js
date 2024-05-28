@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const addedProductSchema = mongoose.Schema({
   client: {
@@ -15,7 +15,7 @@ const addedProductSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  state: { //enum: added, ordered, processing, delivering, received, canceled
+  state: { //enum: added, ordered, processing, delivering, received, canceled, reviewed
     type: String,
     default: 'Added'
   }, 
@@ -25,9 +25,9 @@ const addedProductSchema = mongoose.Schema({
   comment: {
     type: String
   }
-});
+})
 
-const AddedProduct = mongoose.model('AddedProduct', addedProductSchema);
+const AddedProduct = mongoose.model('AddedProduct', addedProductSchema)
 
-module.exports = AddedProduct;
+module.exports = AddedProduct
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const billSchema = mongoose.Schema({
   client: {
@@ -13,7 +13,6 @@ const billSchema = mongoose.Schema({
   }],
   totalPrice: { // limit
     type: Number,
-    require: true
   },
   note: {
     type: String,
@@ -22,9 +21,9 @@ const billSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-});
+})
 
-const Bill = mongoose.model('Bill', billSchema);
+const Bill = mongoose.model('Bill', billSchema)
 
-module.exports = Bill;
+module.exports = Bill
 

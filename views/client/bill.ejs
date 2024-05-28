@@ -1,7 +1,19 @@
 <div class="untree_co-section before-footer-section">
   <div class="container">
     <div class="row mb-5">
-      <!-- <form class="col-md-12" method="post"> -->
+      <div class="col-md-6 mb-5 mb-md-0" style="margin: auto">
+        <% if (successMessages.length > 0) { %>
+          <div class="alert alert-success">
+            <%= successMessages[0] %>
+            <span style="float: right;">
+              <a style="text-decoration: none;" href="/bill">&#215;</a>
+            </span>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="row mb-5">
         <div class="site-blocks-table">
           <table class="table" style="font-size: 16px;">
             <thead>
@@ -43,7 +55,6 @@
             <% } %>
           </table>
         </div>
-      <!-- </form> -->
     </div>
     </div>
   </div>
