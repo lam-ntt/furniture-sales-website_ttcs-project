@@ -11,7 +11,6 @@
 </head>
 
 <body>
-		<!-- Start Header/Navigation -->
 		<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 			<div class="container">
 				<a class="navbar-brand" href="#">Manager Panel</a>
@@ -22,15 +21,13 @@
               <a class="nav-link" href="#" style="margin-right: 30px;">Manage Product</a>
               <div class="dropdown-content">
                 <a href="/admin/add-product">Add Product</a><br>
-                <a href="/admin/search-update-product">Update Product</a><br>
-                <a href="/admin/search-delete-product">Delete Product</a><br>
+                <a href="/admin/search-product">Update Product</a><br>
               </div>
             </li>
 						<li class="dropdown">
               <a class="nav-link" href="#" style="margin-right: 30px;">Manage Bill</a>
               <div class="dropdown-content">
-                <a href="/admin/update-product">Update Bill</a><br>
-                <a href="/admin/cancel-product">Cancel Bill</a><br>
+                <a href="/admin/search-bill">Update Bill</a><br>
               </div>
             </li>
             <li class="dropdown">
@@ -62,11 +59,9 @@
 				</div>
 			</div>
 		</nav>
-		<!-- End Header/Navigation -->
 
     <%- body %>
 
-		<!-- Start Footer Section -->
 		<footer class="footer-section">
 			<div class="container relative">
 				<div class="row g-5 mb-5">
@@ -100,7 +95,6 @@
 				</div>
 			</div>
 		</footer>
-		<!-- End Footer Section -->	
 
 		<script src="js/bootstrap.bundle.min.js"></script>
 		<script src="js/tiny-slider.js"></script>

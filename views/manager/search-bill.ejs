@@ -1,0 +1,81 @@
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-5 mb-md-0" style="margin-left: auto; margin-right: auto">
+        <div class="row">
+          <div class="col-md-10 mb-3 mb-md-0">
+            <input type="text" class="form-control py-3" id="search" placeholder="Enter product code">
+          </div>
+          <div class="col-md-2">
+            <button type="submit" id="find" class="btn btn-black"><a style="color: white; text-decoration: none;" method="get" id="redirect">Find</a></button>
+          </div>
+        </div>
+      </div>
+
+      <form class="col-md-12">
+        <div class="site-blocks-table">
+          <table class="table" style="font-size: 16px;">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th style="width: 275px;">Description</th>
+                <th style="width: 275px;">Client</th>
+                <th>State</th>
+                <th>Option</th>
+              </tr>
+            </thead>
+  
+            <% if (addedProducts) { %>
+              <tbody>
+              <% addedProducts.forEach(addedProduct => { %>
+                <tr>
+                  <td>
+                    <img src="/uploads/<%= addedProduct.product.image %>" style="width: 75px;">
+                  </td>
+                  <td style="text-align: left;">
+                    <strong>Name:</strong> <%= addedProduct.product.name %> x <%= addedProduct.quantity %><br>
+                    <strong>Category:</strong> <%= addedProduct.product.category %><br>
+                    <strong>Color:</strong> <%= addedProduct.product.color %><br>
+                    <strong>Size:</strong> <%= addedProduct.product.size.length %> x <%= addedProduct.product.size.width %> x <%= addedProduct.product.size.height %> inches<br>
+                    <strong>Price:</strong> $<%= (addedProduct.product.newPrice * addedProduct.quantity).toFixed(2) %><br>
+                  </td>
+                  <td style="text-align: left;">
+                    <strong>Name:</strong> <%= addedProduct.client.name %><br>
+                    <strong>Email:</strong> <%= addedProduct.client.email %><br>
+                    <strong>Phone:</strong> <%= addedProduct.client.phone %><br>
+                    <strong>Address:</strong> <%= addedProduct.client.address %><br>
+                  </td>
+                  <td>
+                    <select name="state">
+                      <option value="Ordered" <% if (addedProduct.state === 'Ordered') { %> selected <% } %>>Ordered</option>
+                      <option value="Processing" <% if (addedProduct.state === 'Processing') { %> selected <% } %>>Processing</option>
+                      <option value="Delivering" <% if (addedProduct.state === 'Delivering') { %> selected <% } %>>Delivering</option>
+                      <option value="Received" <% if (addedProduct.state === 'Received') { %> selected <% } %>>Received</option>
+                    </select>
+                  </td>
+                  <td><button><a href="/admin/update-bill/<%= addedProduct._id %>" method="get" style="text-decoration: none;" >Update</a></button></td>
+                </tr>
+              <% }) %>
+              </tbody>
+            <% } %>
+          </table>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const findBtn = document.getElementById('find')
+  const searchIpt = document.getElementById('search')
+  const redirectA = document.getElementById('redirect')
+
+  findBtn.addEventListener('click', (event) => {
+    if(searchIpt.value) {
+      redirectA.setAttribute('href', `/admin/search-bill/?id=${searchIpt.value}`)
+    } else {
+      redirectA.setAttribute('href', `/admin/search-bill/?id=all`)
+    }
+  })
+</script>

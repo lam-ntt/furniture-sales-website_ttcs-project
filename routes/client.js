@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const route = express.Router()
 
 const {authClient:auth} = require("../helpers/auth")
-const check = require("../helpers/check")
 
 const User = require('../models/User')
 const Product = require('../models/Product')
@@ -174,7 +173,11 @@ route.post('/justifyCart', async (req, res) => {
   return res.redirect('/cart')
 })
 
-route.get('/checkout', check, async (req, res) => {
+route.get('/checkout', async (req, res) => {
+  if (!(req.session && req.session.isReferred)) {
+    return res.render('./error.ejs')
+  } 
+
   delete req.session.isReferred
 
   const client = await User.findOne({_id: req.userId})
@@ -268,6 +271,7 @@ route.post('/review/:id', async (req, res) => {
   product.rate = newRate
   product.save()
 
+  req.flash({'success': 'Review has been made!'})
   return res.redirect('/bill')
 })
 
@@ -291,6 +295,7 @@ route.post('/contact', async (req, res) => {
 
   if(ok) {
     await Response.create({client: req.userId, title, content})
+    req.flash({'success': 'Response has been made!'})
     return res.redirect('/contact')
   } else {
     const response = {title, content}

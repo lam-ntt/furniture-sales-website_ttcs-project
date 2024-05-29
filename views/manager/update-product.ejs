@@ -8,31 +8,49 @@
             <div class="form-group row">
               <div class="col-md-12">
                 <label class="text-black">Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
+                <% if (typeof product !== 'undefined') { %>
+                  <input class="form-control" type="text" name="name" value="<%= product.name %>" required>
+                <% } else { %>
+                  <input class="form-control" type="text" name="length" required>
+                <% } %>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="col-md-12" style="margin-bottom: -10px;">
+              <div class="col-md-6">
                 <label class="text-black">Category <span class="text-danger">*</span></label>
-                <ul style="display: flex; column-gap: 85px; list-style: none; margin-left: -30px;">
-                  <li><input type="radio" id="category1" name="category" value="Table" <% if (product.category === 'Table') { %> checked <% } %>> Table</li>
-                  <li><input type="radio" id="category2" name="category" value="Char" <% if (product.category === 'Char') { %> checked <% } %>> Char</li>
-                  <li><input type="radio" id="category3" name="category" value="Cabinet" <% if (product.category === 'Cabinet') { %> checked <% } %>> Cabinet</li>
-                  <li><input type="radio" id="category4" name="category" value="Shelf" <% if (product.category === 'Shelf') { %> checked <% } %>> Shelf</li>
-                </ul>
+                <select class="form-control" name="category" required>
+                  <% if (typeof product !== 'undefined') { %>
+                    <option value="Table" <% if (product.category === 'Table') { %> checked <% } %>>Table</option>
+                    <option value="Char" <% if (product.category === 'Char') { %> checked <% } %>>Char</option>
+                    <option value="Cabinet" <% if (product.category === 'Cabinet') { %> checked <% } %>>Cabinet</option>
+                    <option value="Bed" <% if (product.category === 'Bed') { %> checked <% } %>>Bed</option>
+                  <% } else { %>
+                    <option value="" selected disabled></option>
+                    <option value="Table">Table</option>
+                    <option value="Char">Char</option>
+                    <option value="Cabinet">Cabinet</option>
+                    <option value="Bed">Bed</option>
+                  <% } %>
+                </select>
               </div>
-            </div>
 
-            <div class="form-group row">
-              <div class="col-md-12" style="margin-bottom: -10px;">
+              <div class="col-md-6">
                 <label class="text-black">Color <span class="text-danger">*</span></label>
-                <ul style="display: flex; column-gap: 85px; list-style: none;margin-left: -30px;">
-                  <li><input type="radio" id="color1" name="color" value="White" <% if (product.color === 'White') { %> checked <% } %>> White</li>
-                  <li style="margin-left: -2.5px;"><input type="radio" id="color2" name="color" value="Beigh" <% if (product.color === 'Beigh') { %> checked <% } %>> Beigh</li>
-                  <li style="margin-left: -5.5px;"><input type="radio" id="color3" name="color" value="Brown" <% if (product.color === 'Brown') { %> checked <% } %>> Brown</li>
-                  <li style="margin-left: 10px;"><input type="radio" id="color4" name="color" value="Green" <% if (product.color === 'Green') { %> checked <% } %>> Green</li>
-                </ul>
+                <select class="form-control" name="color" required>
+                  <% if (typeof product !== 'undefined') { %>
+                    <option value="White" <% if (product.color === 'White') { %> checked <% } %>>White</option>
+                    <option value="Beigh" <% if (product.color === 'Beigh') { %> checked <% } %>>Beigh</option>
+                    <option value="Brown" <% if (product.color === 'Brown') { %> checked <% } %>>Brown</option>
+                    <option value="Green" <% if (product.color === 'Green') { %> checked <% } %>>Green</option>
+                  <% } else { %>
+                    <option value="" selected disabled></option>
+                    <option value="White">White</option>
+                    <option value="Beigh">Beigh</option>
+                    <option value="Brown">Brown</option>
+                    <option value="Green">Green</option>
+                  <% } %>
+                </select>
               </div>
             </div>
 
@@ -41,51 +59,118 @@
                 <label class="text-black">Size <span class="text-danger">*</span></label>
               </div>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="length" name="length" placeholder="Length" value="<%= product.size.length %>">
+                <% if (typeof product !== 'undefined') { %>
+                  <% if (typeof error !== 'undefined' && error.length) { %>
+                    <input class="form-control" type="text" name="length" placeholder="Length" style="border: 1px solid red;" required>
+                    <span class="text-danger" style="font-size: 12px;"><%= error.length %></span>
+                  <% } else { %>
+                    <input class="form-control" type="text" name="length" placeholder="Length" value="<%= product.size.length %>" required>
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="text" name="length" placeholder="Length" required>
+                <% } %>
               </div>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="width" name="width" placeholder="Width" value="<%= product.size.width %>">
+                <% if (typeof product !== 'undefined') { %>
+                  <% if (typeof error !== 'undefined' && error.width) { %>
+                    <input class="form-control" type="text" name="width" placeholder="Width" style="border: 1px solid red;" required>
+                    <span class="text-danger" style="font-size: 12px;"><%= error.width %></span>
+                  <% } else { %>
+                    <input class="form-control" type="text" name="width" placeholder="Width" value="<%= product.size.width %>" required>
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="text" name="width" placeholder="Width" required>
+                <% } %>
               </div>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="height" name="height" placeholder="Height" value="<%= product.size.height %>">
+                <% if (typeof product !== 'undefined') { %>
+                  <% if (typeof error !== 'undefined' && error.height) { %>
+                    <input class="form-control" type="text" name="height" placeholder="Height" style="border: 1px solid red;" required>
+                    <span class="text-danger" style="font-size: 12px;"><%= error.height %></span>
+                  <% } else { %>
+                    <input class="form-control" type="text" name="height" placeholder="Height" value="<%= product.size.height %>" required>
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="text" name="height" placeholder="Height" required>
+                <% } %>
               </div>
             </div>
-
+            
             <div class="form-group row">
               <div class="col-md-6">
                 <label class="text-black">Old Price <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="oldPrice" name="oldPrice" value="<%= product.oldPrice %>" required>
+                <% if (typeof product !== 'undefined') { %>
+                  <% if (typeof error !== 'undefined' && error.oldPrice) { %>
+                    <input class="form-control" type="text" name="oldPrice" style="border: 1px solid red;" required>
+                    <span class="text-danger" style="font-size: 12px;"><%= error.oldPrice %></span>
+                  <% } else { %>
+                    <input class="form-control" type="text" name="oldPrice" value="<%= product.oldPrice %>" required>
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="text" name="oldPrice" required>
+                <% } %>
               </div>
               <div class="col-md-6">
                 <label class="text-black">New Price <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="newPrice" name="newPrice" value="<%= product.newPrice %>" required>
+                <% if (typeof product !== 'undefined') { %>
+                  <% if (typeof error !== 'undefined' && error.newPrice) { %>
+                    <input class="form-control" type="text" name="newPrice" style="border: 1px solid red;" required>
+                    <span class="text-danger" style="font-size: 12px;"><%= error.newPrice %></span>
+                  <% } else { %>
+                    <input class="form-control" type="text" name="newPrice" value="<%= product.newPrice %>" required>
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="text" name="newPrice" required>
+                <% } %>
               </div>
             </div>
 
             <div class="form-group row">
               <div class="col-md-12">
                 <label class="text-black">Total number <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="totalNumber" name="totalNumber" value="<%= product.totalNumber %>" required>
+                <% if (typeof product !== 'undefined') { %>
+                  <% if (typeof error !== 'undefined' && error.totalNumber) { %>
+                    <input class="form-control" type="text" name="totalNumber" style="border: 1px solid red;" required>
+                    <span class="text-danger" style="font-size: 12px;"><%= error.totalNumber %></span>
+                  <% } else { %>
+                    <input class="form-control" type="text" name="totalNumber" value="<%= product.totalNumber %>" required>
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="text" name="totalNumber" required>
+                <% } %>
               </div>
             </div>
 
             <div class="form-group row">
               <div class="col-md-12">
                 <label class="text-black">Description <span class="text-danger">*</span></label>
-                <textarea rows="7" class="form-control" id="describe" name="description" required><%= product.description %></textarea>
+                <% if (typeof product !== 'undefined') { %>
+                  <textarea rows="7"  class="form-control" name="description" required><%= product.description %></textarea>
+                <% } else { %>
+                  <textarea rows="7"  class="form-control" name="description" required></textarea>
+                <% } %>
               </div>
             </div>
 
             <div class="form-group row">
               <div class="col-md-6">
-                <label class="text-black">Image <span class="text-danger"></span></label>
-                <img style="width: 300px; margin-bottom: 20px;" id="previewImage" src="/uploads/<%= product.image %>">
-                <input type="file" class="form-control" id="image" name="image">
+                <% if (typeof product !== 'undefined') { %>
+                  <label class="text-black">Image <span class="text-danger">*</span></label>
+                  <img style="width: 300px; margin-bottom: 20px;" id="previewImage" src="/uploads/<%= product.image %>">
+                  <% if (typeof error !== 'undefined' && error.image) { %>
+                    <input class="form-control" type="file" name="image" id="image" style="border: 1px solid red;">
+                    <span class="text-danger" style="font-size: 12px;"><%= error.image %></span>
+                  <% } else { %>
+                    <input class="form-control" type="file" name="image" id="image" value="<%= product.image %>">
+                  <% } %>
+                <% } else { %>
+                  <input class="form-control" type="file" name="image" id="image">
+                <% } %>
               </div>
             </div>
 
             <div class="form-group" style="margin-top: 20px">
-              <button type="submit" class="btn btn-black btn-sm py-3 btn-block">Update</button>
+              <button class="btn btn-black btn-sm py-3 btn-block" type="submit">Update</button>
             </div>
           </form>
         </div>
@@ -95,17 +180,14 @@
 </div>
 
 <script>
-  document.getElementById('image').addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    
-    if (file) {
+  const imageIpt = document.getElementById('image')
+  const previewImg = document.getElementById('previewImage')
+
+  imageIpt.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(file) {
       const reader = new FileReader();
-      
-      reader.onload = function(event) {
-        const previewImageElement = document.getElementById('previewImage');
-        previewImageElement.src = event.target.result;
-      }
-      
+      reader.onload = (e) => {previewImg.src = e.target.result}
       reader.readAsDataURL(file);
     }
   })

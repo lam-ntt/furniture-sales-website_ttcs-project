@@ -9,22 +9,23 @@ const cors = require('cors')
 const session = require('express-session')
 const flash = require('connect-flash')
 
+mongoose.connect(process.env.DATABASE_URL)
+  .then((res) => console.log('Database connecting...'))
+  .catch((err) => console.log(err))
+
 const app = express()
 
 app.use(express.static('public'))
 app.use(express.json())
-
 app.use(expressLayout);
 app.set('layout', './layout/client')
 app.set('view engine', 'ejs')
 
 app.use(morgan('tiny'))
-// for parsing data come from form
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
-// for parsing data come from client-side framework
 app.use(bodyParser.json()) 
 app.use(cookieParser())
-app.use(cors())
 
 app.use(session({ 
   cookie: { maxAge: 60000 }, 
@@ -32,17 +33,13 @@ app.use(session({
   resave: false, 
   saveUninitialized: false
 }));
+
 app.use(flash())
 app.use((req, res, next) => {
   res.locals.successMessages = req.flash('success')
   res.locals.failMessages = req.flash('fail')
   next()
 })
-
-
-mongoose.connect(process.env.DATABASE_URL)
-  .then((res) => console.log('Database connecting...'))
-  .catch((err) => console.log(err))
 
 app.use('/', require('./routes/auth'))
 app.use('/', require('./routes/client'))
