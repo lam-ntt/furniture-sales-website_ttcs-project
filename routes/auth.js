@@ -21,26 +21,17 @@ route.post('/register', async (req, res) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   const phoneRegex = /^\+?[1-9]\d{1,14}$/
 
-  if(name === '' || email === '' || phone === '' || address === '' || password === ''){
-    if(name === '') error.name = "Please fill out this field!"
-    if(email === '') error.email = "Please fill out this field!"
-    if(phone === '') error.phone = "Please fill out this field!"
-    if(address === '') error.address = "Please fill out this field!"
-    if(password === '') error.password = "Please fill out this field!"
-    ok = false
-  }
-
-  if(email !== '' && !emailRegex.test(email)) {
+  if(!emailRegex.test(email)) {
     error.email = "Invalid email format!"
     email = ''
     ok = false
   }
-  if(phone !== '' && !phoneRegex.test(phone)) {
+  if(!phoneRegex.test(phone)) {
     error.phone = "Invalid phone format!"
     phone = ''
     ok = false
   }
-  if(password !== '' && password.length < 8) {
+  if(password.length < 8) {
     error.password = "Length of password must longger than 8 characters"
     password = ''
     ok = false
@@ -76,9 +67,7 @@ route.post('/login', async (req, res) => {
   let error = {}
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-  if(email === ''){
-    error.email = "Please fill out this field!"
-  } else if(!emailRegex.test(email)) {
+  if(!emailRegex.test(email)) {
     error.email = "Invalid email format!"
     email = ''
   } else {
@@ -87,28 +76,24 @@ route.post('/login', async (req, res) => {
       error.email = "This email is not exist!"
       email = ''
     } else {
-      if(password === '') {
-        error.password = "Please fill out this field!"
+      if(bcrypt.compareSync(password, user.password)) {
+        const token = jwt.sign(
+          {userId: user._id}, 
+          process.env.SECRET_KEY, 
+          {
+            algorithm: 'HS256',
+            expiresIn: '1d'
+          }
+        );
+
+        res.cookie(
+          'token', token, 
+          {httpOnly: true}
+        );
+        res.locals.isAuth = true
+        return res.redirect('/')
       } else {
-        if(bcrypt.compareSync(password, user.password)) {
-          const token = jwt.sign(
-            {userId: user._id}, 
-            process.env.SECRET_KEY, 
-            {
-              algorithm: 'HS256',
-              expiresIn: '1d'
-            }
-          );
-  
-          res.cookie(
-            'token', token, 
-            {httpOnly: true}
-          );
-          res.locals.isAuth = true
-          return res.redirect('/')
-        } else {
-          error.password = "Wrong password!"
-        }
+        error.password = "Wrong password!"
       }
     }
   }
@@ -134,9 +119,7 @@ route.post('/send-request', async (req, res) => {
   let error = {}
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   
-  if(email === '') {
-    error.email = "Please fill out this field!"
-  } else if(!emailRegex.test(email)) {
+  if(!emailRegex.test(email)) {
     error.email = "Invalid email format!"
     email = ''
   } else {
@@ -185,15 +168,11 @@ route.post('/reset-password/:token', async (req, res) => {
     const id = decoded.userId
 
     let error = {}
-    if(password === '') {
-      error.password = "Please fill out this field!"
-    } else if(password.length < 8) {
+    if(password.length < 8) {
       error.password = "Length of password must longger than 8 characters"
       password = ''
     } else  {
-      if(confirmPassword === '') {
-        error.confirmPassword = "Please fill out this field!"
-      } else if(confirmPassword !== password) {
+      if(confirmPassword !== password) {
         error.confirmPassword = "Confirm password does not match!"
       } else {
         await User.findByIdAndUpdate(
