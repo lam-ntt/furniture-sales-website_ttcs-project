@@ -108,47 +108,45 @@
   })
 
   plusBtn.addEventListener('click', () => {
-    if(Number(quantity.innerText) + 1 <= Number('<%= product.totalNumber %>')){
+    if(Number(quantity.innerText) + 1 <= Number('<%= product.totalNumber %>') - Number('<%= product.soldNumber %>')){
       quantity.innerText = Number(quantity.innerText) + 1
     }
   })
 
   addBtn.addEventListener('click', () => {
-    if(product.totalNumber > product.soldNumber) {
-      fetch('/addToCart', {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({product, quantity: Number(quantity.innerText)})
-      })
-      .then(res => res.json())
-      .then(res => {
-        if(res.success) {
-          mesBlock.innerHTML = `
-            <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
-              <div class="alert alert-success">
-                ${res.success}
-                <span style="float: right;">
-                  <a style="text-decoration: none;" href="/product/<%= product._id %>">&#215;</a>
-                </span>
-              </div>
-            </div>`
-        } else {
-          mesBlock.innerHTML = `
-            <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
-              <div class="alert alert-warning">
-                ${res.fail}
-                <span style="float: right;">
-                  <a style="text-decoration: none;" href="/product/<%= product._id %>">&#215;</a>
-                </span>
-              </div>
-            </div>`
-        }
-      })
-      .catch(err => console.log(err))
-    }
+    fetch('/addToCart', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({product, quantity: Number(quantity.innerText)})
+    })
+    .then(res => res.json())
+    .then(res => {
+      if(res.success) {
+        mesBlock.innerHTML = `
+          <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
+            <div class="alert alert-success">
+              ${res.success}
+              <span style="float: right;">
+                <a style="text-decoration: none;" href="/product/<%= product._id %>">&#215;</a>
+              </span>
+            </div>
+          </div>`
+      } else {
+        mesBlock.innerHTML = `
+          <div class="col-md-6 mb-5 mb-md-0" style="margin: auto; margin-top: 30px;">
+            <div class="alert alert-warning">
+              ${res.fail}
+              <span style="float: right;">
+                <a style="text-decoration: none;" href="/product/<%= product._id %>">&#215;</a>
+              </span>
+            </div>
+          </div>`
+      }
+    })
+    .catch(err => console.log(err))
   })
 
   desBtn.addEventListener('click', () => {

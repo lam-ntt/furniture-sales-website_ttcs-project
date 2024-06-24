@@ -126,6 +126,7 @@ route.post('/addToCart', async (req, res) => {
   const {product, quantity} = req.body
 
   if(product.totalNumber === product.soldNumber) {
+    console.log('ok')
     return res.send({'fail': 'Not enough quantity!'})
   }
 
@@ -202,8 +203,8 @@ route.post('/checkout', async (req, res) => {
     addedProducts[i].state = 'Ordered'
     addedProducts[i].save()
 
-    const product = Product.findOne({_id: addedProducts[i].product._id})
-    product.soldNumber = product.soldNumber + addedProducts.quantity
+    const product = await Product.findOne({_id: addedProducts[i].product._id})
+    product.soldNumber = product.soldNumber + addedProducts[i].quantity
     product.save()
   }
 
@@ -255,12 +256,13 @@ route.post('/review/:id', async (req, res) => {
   }
 
   const {rate, comment} = req.body
-  await AddedProduct.findByIdAndUpdate({_id: id}, {
+  const addedProduct = await AddedProduct.findByIdAndUpdate({_id: id}, {
     rate, comment, 
     state: 'Reviewed'
   })
 
-  const product = await Product.findOne({_id: id})
+  const product = await Product.findOne({_id: addedProduct.product._id})
+  console.log(product)
   const oldRate = product.rate
   const numOfRate = await AddedProduct.countDocuments({
     product: product._id,

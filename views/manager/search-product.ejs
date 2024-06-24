@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <form class="col-md-12">
+      <!-- <form class="col-md-12"> -->
         <div class="site-blocks-table">
           <table class="table" style="font-size: 16px;">
             <% if (products.length !== 0) { %>
@@ -25,7 +25,7 @@
                   <th>Size<br><span style="font-size: 12px; font-weight: 500;">(L x W x H)</span></th>
                   <th>Price<br><span style="font-size: 12px; font-weight: 500;">(Old | New price)</span></th>
                   <th>Quantity<br><span style="font-size: 12px; font-weight: 500;">(Total | Sold number)</span></th>
-                  <th>Action</th>
+                  <th style="width: 175px;">Action</th>
                 </tr>
               </thead>
             
@@ -46,14 +46,18 @@
                   </tr>
                 <% }) %>
               </tbody>
-            <% } %>
+              <% } else { %>
+                <div style="height: 475px; visibility: hidden;">
+                  p
+                </div>
+              <% } %>
           </table>
         </div>
-      </form>
-
+      <!-- </form> -->
     </div>
   </div>
 </div>
+
 
 <script>
   const findBtn = document.getElementById('find')

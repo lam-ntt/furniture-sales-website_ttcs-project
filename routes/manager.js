@@ -85,6 +85,7 @@ route.post('/add-product', upload.single('image'), async (req, res) => {
       name, category, color, size: {length, width, height}, 
       oldPrice, newPrice, totalNumber, description, image: file.filename
     })
+    req.flash('success', 'Product has been added successfully!')
     return res.redirect('/admin')
   } else {
     const product = {name, category, color, length, width, height, 
@@ -115,7 +116,6 @@ route.get('/update-product/:id', async (req, res) => {
   res.render('./manager/update-product', {layout: adminLayout, product})
 })
 
-// cant show many errors at the same time
 route.post('/update-product/:id', upload.single('image'), async (req, res) => {
   const {id} = req.params
   const oldProduct = await Product.findOne({_id: id})
@@ -123,8 +123,6 @@ route.post('/update-product/:id', upload.single('image'), async (req, res) => {
   let {name, category, color, length, width, height, 
       oldPrice, newPrice, totalNumber, description} = req.body
   let {file} = req
-
-  console.log('ok')
 
   let error = {}, ok = true
   if(isNaN(length) || isNaN(width) || isNaN(height) || isNaN(oldPrice) || isNaN(newPrice) || isNaN(totalNumber)) {
@@ -199,9 +197,11 @@ route.post('/update-product/:id', upload.single('image'), async (req, res) => {
         oldPrice, newPrice, totalNumber, description
       })
     }
+
+    req.flash('success', 'Product has been updated successfully!')
     res.redirect('/admin')
   } else {
-    const product = {name, category, color, size: {length, width, height}, 
+    const product = {_id: oldProduct._id, name, category, color, size: {length, width, height}, 
                       oldPrice, newPrice, totalNumber, description, image: oldProduct.image}
     return res.render('./manager/update-product', {layout: adminLayout, product, error})
   }
@@ -214,23 +214,32 @@ route.get('/delete-product/:id', async (req, res) => {
   }
 
   await Product.findByIdAndDelete({_id: id})
+  req.flash('success', 'Product has been deleted successfully!')
   return res.redirect('/admin')
 })
 
 route.get('/search-bill', async (req, res) => {
   const {id} = req.query
+  const states = ['Ordered', 'Processing', 'Delivering', 'Received', 'Canceled']
   let addedProducts
   if(id !== 'all') {
-    addedProducts = await AddedProduct.find({_id: id}).populate('client product')
+    addedProducts = await AddedProduct.find({_id: id, state: {$in: states}}).populate('client product')
   } else {
-    addedProducts = await AddedProduct.find().populate('client product')
+    addedProducts = await AddedProduct.find({state: {$in: states}}).populate('client product')
   }
 
   return res.render('./manager/search-bill', {layout: adminLayout, addedProducts})
 })
 
-route.get('/update-bill/:id', async (req, res) => {
+route.post('/update-bill/:id', async (req, res) => {
+  const {id} = req.params
+  if(!mongoose.isValidObjectId(id)) {
+    return res.render('./error')
+  }
 
+  const {state} = req.body
+  await AddedProduct.findByIdAndUpdate({_id: id}, {state: state})
+  return res.redirect('/search-bill')
 })
 
 module.exports = route;

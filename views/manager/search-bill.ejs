@@ -4,7 +4,7 @@
       <div class="col-md-6 mb-5 mb-md-0" style="margin-left: auto; margin-right: auto">
         <div class="row">
           <div class="col-md-10 mb-3 mb-md-0">
-            <input type="text" class="form-control py-3" id="search" placeholder="Enter product code">
+            <input type="text" class="form-control py-3" id="search" placeholder="Enter bill code">
           </div>
           <div class="col-md-2">
             <button type="submit" id="find" class="btn btn-black"><a style="color: white; text-decoration: none;" method="get" id="redirect">Find</a></button>
@@ -12,20 +12,20 @@
         </div>
       </div>
 
-      <form class="col-md-12">
+      <!-- <form class="col-md-12"> -->
         <div class="site-blocks-table">
           <table class="table" style="font-size: 16px;">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th style="width: 275px;">Description</th>
-                <th style="width: 275px;">Client</th>
-                <th>State</th>
-                <th>Option</th>
-              </tr>
-            </thead>
-  
-            <% if (addedProducts) { %>
+            <% if (addedProducts.length !== 0) { %>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th style="width: 275px;">Description</th>
+                  <th style="width: 275px;">Client</th>
+                  <th>State</th>
+                  <th>Option</th>
+                </tr>
+              </thead>
+            
               <tbody>
               <% addedProducts.forEach(addedProduct => { %>
                 <tr>
@@ -53,15 +53,18 @@
                       <option value="Received" <% if (addedProduct.state === 'Received') { %> selected <% } %>>Received</option>
                     </select>
                   </td>
-                  <td><button><a href="/admin/update-bill/<%= addedProduct._id %>" method="get" style="text-decoration: none;" >Update</a></button></td>
+                  <td><button name="update">Update</button></td>
                 </tr>
               <% }) %>
               </tbody>
+            <% } else { %>
+              <div style="height: 475px; visibility: hidden;">
+                p
+              </div>
             <% } %>
           </table>
         </div>
-      </form>
-
+      <!-- </form> -->
     </div>
   </div>
 </div>
@@ -71,6 +74,11 @@
   const searchIpt = document.getElementById('search')
   const redirectA = document.getElementById('redirect')
 
+  const updateBtns = Array.from(document.getElementsByName('update'))
+  const stateSlts = Array.from(document.getElementsByName('state'))
+
+  const addedProducts = <%- JSON.stringify(addedProducts) %>
+
   findBtn.addEventListener('click', (event) => {
     if(searchIpt.value) {
       redirectA.setAttribute('href', `/admin/search-bill/?id=${searchIpt.value}`)
@@ -78,4 +86,18 @@
       redirectA.setAttribute('href', `/admin/search-bill/?id=all`)
     }
   })
+
+  for(let i = 0 ; i < updateBtns.length; i++) {
+    updateBtns[i].addEventListener('click', () => {
+      fetch(`/admin/update-bill/${addedProducts[i]._id}`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({state: stateSlts[i].value})
+      })
+      .then(res => window.location.reload())
+      .then(err => console.log(err))
+    })
+  }
 </script>
